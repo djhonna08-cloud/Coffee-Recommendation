@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Matchmaker | Find Your Perfect Brew</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #fdfaf7; }
+        h1, h2 { font-family: 'Playfair Display', serif; }
+        .coffee-card { transition: transform 0.2s; }
+        .coffee-card:hover { transform: translateY(-5px); }
+        .option-btn:focus { outline: none; box-shadow: 0 0 0 3px rgba(251, 146, 60, 0.25); }
+    </style>
+</head>
+<body class="text-stone-800">
+
+    <!-- Header -->
+    <header class="py-12 bg-stone-900 text-white text-center shadow-lg">
+        <h1 class="text-4xl md:text-5xl mb-2">Coffee Matchmaker</h1>
+        <p class="text-stone-400 font-light italic">Your journey to the perfect cup starts here.</p>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-6 py-12">
+        
+        <!-- Quiz Section -->
+        <section id="quiz-container" class="bg-white p-8 rounded-2xl shadow-sm border border-stone-100">
+            <div id="question-box">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <p id="step-label" class="text-sm uppercase tracking-[0.3em] text-orange-600 font-semibold">Step 1 of 5</p>
+                        <h2 id="question-text" class="text-2xl font-semibold mt-2">What is your preferred roast level?</h2>
+                    </div>
+                    <div class="text-right text-sm text-stone-500">Choose one to see your match</div>
+                </div>
+                <div id="options-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="mt-12 h-2 w-full bg-stone-100 rounded-full overflow-hidden">
+                <div id="progress" class="h-full bg-orange-600 transition-all duration-500" style="width: 20%;"></div>
+            </div>
+        </section>
+
+        <!-- Result Section (Hidden initially) -->
+        <section id="result-container" class="hidden text-center mt-10">
+            <h2 class="text-3xl mb-4 text-orange-900">Your Perfect Match Is...</h2>
+            <div id="match-display" class="bg-white p-10 rounded-3xl shadow-xl border-t-8 border-orange-600 max-w-2xl mx-auto coffee-card"></div>
+            <button onclick="resetQuiz()" class="mt-8 text-stone-500 underline hover:text-orange-600 transition">Take the quiz again</button>
+        </section>
+
+        <!-- Curated Recommendations -->
+        <section class="mt-14 bg-white p-8 rounded-3xl shadow-sm border border-stone-100">
+            <div class="grid gap-10 lg:grid-cols-2">
+                <div>
+                    <h2 class="text-3xl font-semibold text-stone-900 mb-4">Coffee Classics & Variations</h2>
+                    <p class="text-stone-600 mb-6">From bold and intense to creamy and sweet, coffee offers a huge range of flavor profiles.</p>
+                    <div class="space-y-5 text-stone-700">
+                        <div>
+                            <h3 class="text-xl font-semibold text-stone-900">Spanish Latte</h3>
+                            <p class="text-sm text-stone-600 mt-1">A creamy, sweetened latte made with condensed milk. It’s smoother and richer than a standard latte.</p>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-stone-900">Sea Salt Latte</h3>
+                            <p class="text-sm text-stone-600 mt-1">Usually a cold brew or iced Americano topped with a thick layer of salted cream foam. It strikes a perfect balance between savory and sweet.</p>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-stone-900">Caramel Macchiato</h3>
+                            <p class="text-sm text-stone-600 mt-1">A layered drink featuring vanilla syrup, steamed milk, espresso, and a generous drizzle of caramel sauce.</p>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-stone-900">Dirty Chai Latte</h3>
+                            <p class="text-sm text-stone-600 mt-1">A fusion drink consisting of a spiced chai tea latte with a shot of espresso added for an extra caffeine boost.</p>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-stone-900">Cold Brew with Oat Milk</h3>
+                            <p class="text-sm text-stone-600 mt-1">Steeped for 12–24 hours, this coffee is low in acidity and pairs beautifully with the nuttiness of oat milk.</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h2 class="text-3xl font-semibold text-stone-900 mb-4">Matcha Selections</h2>
+                    <p class="text-stone-600 mb-6">Matcha provides a steady energy release without the jittery feeling often associated with coffee.</p>
+                    <div class="space-y-5 text-stone-700">
+                        <div>
+                            <h3 class="text-xl font-semibold text-stone-900">Iced Strawberry Matcha Latte</h3>
+                            <p class="text-sm text-stone-600 mt-1">A trendy favorite featuring a layer of fresh strawberry purée, milk, and a vibrant green matcha topper.</p>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-stone-900">Ceremonial Grade Hot Matcha</h3>
+                            <p class="text-sm text-stone-600 mt-1">Prepared whisked with hot water (not boiling) to enjoy the pure, grassy, and umami notes of high-quality tea.</p>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-stone-900">Vanilla Matcha Latte</h3>
+                            <p class="text-sm text-stone-600 mt-1">A great entry-level matcha; the vanilla helps mellow out the natural earthiness of the green tea.</p>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-stone-900">Coconut Matcha Refresher</h3>
+                            <p class="text-sm text-stone-600 mt-1">Matcha mixed with coconut water or coconut milk for a light, tropical, and hydrating twist.</p>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-stone-900">Matcha Espresso Fusion</h3>
+                            <p class="text-sm text-stone-600 mt-1">For those who can't decide—this drink layers matcha, milk, and a shot of espresso for a beautiful tri-color effect.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Coffee Database
+        const coffees = [
+            { id: 1, name: "Ethiopian Yirgacheffe", roast: "Light", profile: "Fruity", acidity: "High", temperature: "Hot", caffeine: "Medium", notes: "Jasmine, Lemon, Peach", desc: "Best for those who love tea-like, floral complexity and a bright finish." },
+            { id: 2, name: "Colombian Huila", roast: "Medium", profile: "Sweet", acidity: "Medium", temperature: "Hot", caffeine: "Medium", notes: "Caramel, Red Apple, Nutty", desc: "A perfectly balanced classic that feels comforting and smooth." },
+            { id: 3, name: "Sumatra Mandheling", roast: "Dark", profile: "Earthy", acidity: "Low", temperature: "Iced", caffeine: "High", notes: "Cedar, Spice, Dark Chocolate", desc: "Bold and full-bodied with a lingering, rich finish made for strong iced brews." },
+            { id: 4, name: "Guatemalan Antigua", roast: "Medium", profile: "Chocolatey", acidity: "Medium", temperature: "Hot", caffeine: "Medium", notes: "Cocoa, Smoky, Toffee", desc: "Elegant with rich chocolate sweetness and a touch of warming spice." },
+            { id: 5, name: "Kenya AA", roast: "Light", profile: "Fruity", acidity: "High", temperature: "Iced", caffeine: "High", notes: "Blackcurrant, Grapefruit, Winey", desc: "Intense and vibrant, this bright brew is a great fit for an iced coffee craving." },
+            { id: 6, name: "Brazilian Santos", roast: "Dark", profile: "Nutty", acidity: "Low", temperature: "Iced", caffeine: "Low", notes: "Peanut, Toasted Malt, Low Bitter", desc: "Smooth and mellow, making it a friendly base for milk-forward iced drinks." }
+        ];
+
+        // Quiz Logic
+        let currentStep = 0;
+        let selections = { roast: '', profile: '', acidity: '', temperature: '', caffeine: '' };
+
+        const steps = [
+            {
+                key: 'roast',
+                question: "How do you like your roast?",
+                options: ["Light", "Medium", "Dark"]
+            },
+            {
+                key: 'profile',
+                question: "Which flavor notes speak to you?",
+                options: ["Fruity", "Sweet", "Earthy", "Nutty"]
+            },
+            {
+                key: 'acidity',
+                question: "How do you feel about brightness (acidity)?",
+                options: ["High", "Medium", "Low"]
+            },
+            {
+                key: 'temperature',
+                question: "Would you like your coffee hot or iced?",
+                options: ["Hot", "Iced"]
+            },
+            {
+                key: 'caffeine',
+                question: "What caffeine intensity do you want?",
+                options: ["Low", "Medium", "High"]
+            }
+        ];
+
+        function renderStep() {
+            const step = steps[currentStep];
+            const qBox = document.getElementById('question-text');
+            const stepLabel = document.getElementById('step-label');
+            const oGrid = document.getElementById('options-grid');
+            const progress = document.getElementById('progress');
+
+            qBox.innerText = step.question;
+            stepLabel.innerText = `Step ${currentStep + 1} of ${steps.length}`;
+            oGrid.innerHTML = '';
+            progress.style.width = ((currentStep + 1) / steps.length) * 100 + '%';
+
+            step.options.forEach(option => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = "option-btn p-5 text-lg border-2 border-stone-200 rounded-3xl hover:border-orange-600 hover:bg-orange-50 transition text-left px-6 font-medium text-stone-700 bg-white shadow-sm";
+                btn.innerText = option;
+                btn.onclick = () => selectOption(step.key, option);
+                oGrid.appendChild(btn);
+            });
+        }
+
+        function selectOption(key, value) {
+            selections[key] = value;
+            if (currentStep < steps.length - 1) {
+                currentStep++;
+                renderStep();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById('quiz-container').classList.add('hidden');
+            document.getElementById('result-container').classList.remove('hidden');
+
+            const scored = coffees.map(c => {
+                let score = 0;
+                let exactMatches = 0;
+
+                if (c.roast === selections.roast) { score += 3; exactMatches++; }
+                if (c.profile === selections.profile) { score += 3; exactMatches++; }
+                if (c.temperature === selections.temperature) { score += 3; exactMatches++; }
+                if (c.caffeine === selections.caffeine) { score += 3; exactMatches++; }
+                if (c.acidity === selections.acidity) { score += 2; exactMatches++; }
+
+                return { ...c, score, exactMatches };
+            });
+
+            const winner = scored.sort((a, b) => {
+                if (b.score !== a.score) return b.score - a.score;
+                return b.exactMatches - a.exactMatches;
+            })[0];
+
+            document.getElementById('match-display').innerHTML = `
+                <div class="text-orange-600 font-bold uppercase tracking-widest text-xs mb-3">${winner.temperature} · ${winner.caffeine} Caffeine</div>
+                <h3 class="text-4xl font-bold mb-4 text-stone-900">${winner.name}</h3>
+                <div class="flex flex-wrap justify-center gap-2 mb-6">
+                    ${winner.notes.split(', ').map(n => `<span class="bg-stone-100 px-4 py-2 rounded-full text-sm font-semibold text-stone-700">${n}</span>`).join('')}
+                </div>
+                <p class="text-stone-600 leading-relaxed text-lg">${winner.desc}</p>
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 text-left text-sm text-stone-600">
+                    <div class="bg-stone-50 p-4 rounded-2xl">
+                        <span class="block text-xs uppercase tracking-[0.2em] text-stone-400">Roast</span>
+                        <span class="mt-2 block text-base font-semibold text-stone-800">${winner.roast}</span>
+                    </div>
+                    <div class="bg-stone-50 p-4 rounded-2xl">
+                        <span class="block text-xs uppercase tracking-[0.2em] text-stone-400">Acidity</span>
+                        <span class="mt-2 block text-base font-semibold text-stone-800">${winner.acidity}</span>
+                    </div>
+                    <div class="bg-stone-50 p-4 rounded-2xl">
+                        <span class="block text-xs uppercase tracking-[0.2em] text-stone-400">Best enjoy</span>
+                        <span class="mt-2 block text-base font-semibold text-stone-800">${winner.temperature === 'Iced' ? 'Cold brew or iced pour-over' : 'Fresh brewed drip or pour-over'}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function resetQuiz() {
+            currentStep = 0;
+            selections = { roast: '', profile: '', acidity: '', temperature: '', caffeine: '' };
+            document.getElementById('quiz-container').classList.remove('hidden');
+            document.getElementById('result-container').classList.add('hidden');
+            renderStep();
+        }
+
+        renderStep();
+    </script>
+</body>
+</html>
